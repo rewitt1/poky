@@ -145,16 +145,6 @@ class RpmIndexer(Indexer):
         if signer:
             for repomd in repomd_files:
                 signer.detach_sign(repomd)
-        # Copy pubkey(s) to repo
-        distro_version = self.d.getVar('DISTRO_VERSION', True) or "oe.0"
-        if self.d.getVar('RPM_SIGN_PACKAGES', True) == '1':
-            shutil.copy2(self.d.getVar('RPM_GPG_PUBKEY', True),
-                         os.path.join(self.deploy_dir,
-                                      'RPM-GPG-KEY-%s' % distro_version))
-        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
-            shutil.copy2(self.d.getVar('PACKAGE_FEED_GPG_PUBKEY', True),
-                         os.path.join(self.deploy_dir,
-                                      'REPODATA-GPG-KEY-%s' % distro_version))
 
 
 class OpkgIndexer(Indexer):

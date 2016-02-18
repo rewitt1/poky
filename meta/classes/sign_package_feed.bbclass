@@ -30,9 +30,12 @@ python () {
 
     # Set expected location of the public key
     d.setVar('PACKAGE_FEED_GPG_PUBKEY',
-             os.path.join(d.getVar('STAGING_ETCDIR_NATIVE', False),
-                                   'PACKAGE-FEED-GPG-PUBKEY'))
+             os.path.join(d.getVar('STAGING_DIR_TARGET', False),
+                          d.getVar('sysconfdir', False),
+                          'pki',
+                          'packagefeed-gpg',
+                          'PACKAGEFEED-GPG-KEY-${DISTRO_VERSION}'))
 }
 
-do_package_index[depends] += "signing-keys:do_export_public_keys"
-do_rootfs[depends] += "signing-keys:do_export_public_keys"
+do_package_index[depends] += "signing-keys:do_deploy"
+do_rootfs[depends] += "signing-keys:do_populate_sysroot"
